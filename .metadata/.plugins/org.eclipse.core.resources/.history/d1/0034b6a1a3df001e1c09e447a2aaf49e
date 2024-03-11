@@ -1,0 +1,19 @@
+/**
+ * 
+ */
+package UITesting;
+
+import org.openqa.selenium.safari.SafariDriver;
+
+public class SafariUITsting {
+
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		SafariDriver driver = new SafariDriver();
+		driver.manage().window().maximize();
+
+	}
+
+}

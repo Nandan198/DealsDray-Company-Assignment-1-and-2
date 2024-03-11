@@ -1,0 +1,120 @@
+package UITesting;
+
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.By;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.Duration;
+
+public class ChromeUITesting {
+
+    public static void main(String[] args) {
+        ChromeDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.get("https://www.getcalley.com/page-sitemap.xml");
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.findElement(By.xpath("/html/body/div[2]/table/tbody/tr[1]/td[1]/a")).click();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(100));
+//        driver.findElement(By.xpath("/html/body/div[1]/div/div[22]/div[2]/div/a")).click();
+//        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+        // List of resolutions
+        String[] desktopResolutions = {"1920x1080", "1366x768", "1536x864"};
+        String[] mobileResolutions = {"360x640", "414x896", "375x667"};
+
+        // Capture screenshots for desktop resolutions
+        captureScreenshots(driver, "Desktop", desktopResolutions);
+
+        // Capture screenshots for mobile resolutions
+        captureScreenshots(driver, "Mobile", mobileResolutions);
+
+        // Close the browser
+//        driver.quit();
+    }
+
+    public static void captureScreenshots(ChromeDriver driver, String device, String[] resolutions) {
+        for (String resolution : resolutions) {
+            // Create folder structure
+            String folderPath = "screenshots/" + device + "/" + resolution;
+            File folder = new File(folderPath);
+            // Create folders if they don't exist
+            folder.mkdirs();
+
+            // Generate current date and time
+            LocalDateTime currentTime = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss");
+            String timestamp = currentTime.format(formatter);
+
+            // Save screenshot with date-time stamp
+            String screenshotName = folderPath + "/Screenshot-" + timestamp + ".png";
+
+            // Resize browser window for specified resolution
+            String[] dimension = resolution.split("x");
+            int width = Integer.parseInt(dimension[0]);
+            int height = Integer.parseInt(dimension[1]);
+            driver.manage().window().setSize(new org.openqa.selenium.Dimension(width, height));
+
+            // Take screenshot
+            File screenshotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+            try {
+                // Save screenshot
+                FileUtils.copyFile(screenshotFile, new File(screenshotName));
+            } catch (IOException e) {
+                e.printStackTrace();
+                
+                driver.navigate().back();
+                driver.findElement(By.xpath("/html/body/div[2]/table/tbody/tr[2]/td[1]/a")).click();
+                driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+                
+                String[] desktopResolutions = {"1920x1080", "1366x768", "1536x864"};
+                String[] mobileResolutions = {"360x640", "414x896", "375x667"};
+
+                // Capture screenshots for desktop resolutions
+                captureScreenshots(driver, "Desktop", desktopResolutions);
+
+                // Capture screenshots for mobile resolutions
+                captureScreenshots(driver, "Mobile", mobileResolutions);
+
+//                 Close the browser
+                driver.quit();
+            }
+
+            public static void captureScreenshots1(ChromeDriver driver, String device, String[] resolutions) {
+                for (String resolution : resolutions) {
+                    // Create folder structure
+                    String folderPath = "screenshots/" + device + "/" + resolution;
+                    File folder = new File(folderPath);
+                    // Create folders if they don't exist
+                    folder.mkdirs();
+
+                    // Generate current date and time
+                    LocalDateTime currentTime = LocalDateTime.now();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss");
+                    String timestamp = currentTime.format(formatter);
+
+                    // Save screenshot with date-time stamp
+                    String screenshotName = folderPath + "/Screenshot-" + timestamp + ".png";
+
+                    // Resize browser window for specified resolution
+                    String[] dimension = resolution.split("x");
+                    int width = Integer.parseInt(dimension[0]);
+                    int height = Integer.parseInt(dimension[1]);
+                    driver.manage().window().setSize(new org.openqa.selenium.Dimension(width, height));
+
+                    // Take screenshot
+                    File screenshotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+                    try {
+                        // Save screenshot
+                        FileUtils.copyFile(screenshotFile, new File(screenshotName));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                
+            }
+        }
+    }
+}

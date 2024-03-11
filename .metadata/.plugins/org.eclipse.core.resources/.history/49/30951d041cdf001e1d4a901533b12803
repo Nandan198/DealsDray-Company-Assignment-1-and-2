@@ -1,0 +1,99 @@
+
+package AutomationTest2;
+
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.io.FileHandler;
+
+public class FunctionalTesting {
+
+	
+	public static void main(String[] args) throws IOException, InterruptedException, AWTException {
+		// TODO Auto-generated method stub
+		
+		//Lunching ChromeDriver
+		ChromeDriver driver = new ChromeDriver();
+		
+		//Maximizing The Window
+		driver.manage().window().maximize();
+		
+		//Navigating to https://demo.dealsdray.com
+		driver.get("https://demo.dealsdray.com/");
+		
+		//Locating and sending keys Username
+		driver.findElement(By.id("mui-1")).sendKeys("prexo.mis@dealsdray.com");
+		
+		//Locating and sending Password
+		driver.findElement(By.id("mui-2")).sendKeys("prexo.mis@dealsdray.com");
+		
+		//Adding implicit wait
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		
+		//Locating and clicking on Order
+		driver.findElement(By.xpath("/html/body/div/div/div/div/div[2]/div/form/div[3]/div/button")).click();
+		
+		//Locating and Clicking on Orders
+		driver.findElement(By.xpath("/html/body/div/div/div[1]/div/div[2]/div[1]/div[2]/button")).click();
+		
+		//Locating and clicking On Add Bulk Orders
+		driver.findElement(By.xpath("/html/body/div/div/div[1]/div/div[2]/div[1]/div[2]/div/div[1]/a/button/span[1]")).click();
+		
+		//Locating and Clicking on Choose File
+		driver.findElement(By.xpath("/html/body/div/div/div[2]/div[2]/div/div/div[2]/div[2]/button")).click();
+		
+		//Adding Implict wait
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		
+		//Using Robot Class Method
+		driver.findElement(By.xpath("/html/body/div/div/div[2]/div[2]/div/div/div[2]/div[3]/div/div")).click();	
+		Robot rb=new Robot();
+		rb.delay(2000);
+		
+		//put path to file in a clipboard
+		StringSelection ss = new StringSelection("C:\\Users\\hp\\Desktop\\demo-data.xlsx");
+		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
+		
+		//CTRL+V
+		rb.keyPress(KeyEvent.VK_CONTROL);//Press On CTRL Key
+		rb.keyPress(KeyEvent.VK_V);//Press On CTRL Key
+		
+		rb.keyRelease(KeyEvent.VK_CONTROL);
+		rb.keyRelease(KeyEvent.VK_V);
+		
+		//Enter
+		rb.keyPress(KeyEvent.VK_ENTER);
+		rb.keyPress(KeyEvent.VK_ENTER);
+	
+		//Adding Thread.sleep
+		Thread.sleep(1000);
+		
+		//Locating and clicking Import button
+		driver.findElement(By.xpath("//button[contains(text(),'Import')]")).click();
+		Thread.sleep(1000);
+		
+		//Locating and Ckicking Validate Data Button
+		driver.findElement(By.xpath("//button[contains(text(),'Validate Data')]")).click();
+		Thread.sleep(1000);
+		
+		//Switching to alert Box
+		driver.switchTo().alert().accept();
+		
+		//Taking ScreenShot
+		File Selenium = (File)driver.getScreenshotAs(OutputType.FILE);
+		FileHandler.copy(Selenium, new File("./Final Output.png"));
+		
+		driver.quit();
+		
+	}
+
+}

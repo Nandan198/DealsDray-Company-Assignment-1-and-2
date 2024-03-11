@@ -1,0 +1,66 @@
+
+package AutomationTest2;
+
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.io.FileHandler;
+
+public class FunctionalTesting {
+
+	
+	public static void main(String[] args) throws IOException, InterruptedException, AWTException {
+		// TODO Auto-generated method stub
+		
+		ChromeDriver driver = new ChromeDriver();
+		driver.get("https://demo.dealsdray.com/");
+		driver.manage().window().maximize();
+		driver.findElement(By.id("mui-1")).sendKeys("prexo.mis@dealsdray.com");
+		driver.findElement(By.id("mui-2")).sendKeys("prexo.mis@dealsdray.com");
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		driver.findElement(By.xpath("/html/body/div/div/div/div/div[2]/div/form/div[3]/div/button")).click();
+		driver.findElement(By.xpath("/html/body/div/div/div[1]/div/div[2]/div[1]/div[2]/button")).click();
+		driver.findElement(By.xpath("/html/body/div/div/div[1]/div/div[2]/div[1]/div[2]/div/div[1]/a/button/span[1]")).click();
+		driver.findElement(By.xpath("/html/body/div/div/div[2]/div[2]/div/div/div[2]/div[2]/button")).click();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+		
+		driver.findElement(By.xpath("/html/body/div/div/div[2]/div[2]/div/div/div[2]/div[3]/div/div")).click();
+		
+		Robot rb=new Robot();
+		rb.delay(2000);
+		StringSelection ss = new StringSelection("C:\\Users\\hp\\Desktop\\demo-data.xlsx");
+		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
+		rb.keyPress(KeyEvent.VK_CONTROL);
+		rb.keyPress(KeyEvent.VK_V);
+		
+		rb.keyRelease(KeyEvent.VK_CONTROL);
+		rb.keyRelease(KeyEvent.VK_V);
+		
+		rb.keyPress(KeyEvent.VK_ENTER);
+		rb.keyPress(KeyEvent.VK_ENTER);
+	
+		Thread.sleep(3000);
+		driver.findElement(By.xpath("//button[contains(text(),'Import')]")).click();
+		Thread.sleep(3000);
+		
+		//Thread.sleep(3000);
+		driver.findElement(By.xpath("//button[contains(text(),'Validate Data')]")).click();
+		Thread.sleep(3000);
+		driver.switchTo().alert().accept();
+		
+		//Taking ScreenShot
+		File Selenium = (TakesScreenshot)driver.getScreenshotAs(OutputType.FILE);
+		FileHandler.copy(Selenium, new File("./Final Output.png"));
+	}
+
+}

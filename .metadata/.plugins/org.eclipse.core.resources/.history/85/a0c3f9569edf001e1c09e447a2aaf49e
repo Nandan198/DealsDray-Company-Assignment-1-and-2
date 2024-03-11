@@ -1,0 +1,42 @@
+/**
+ * 
+ */
+package UITesting;
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+public class FireFoxUITesting {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		FirefoxDriver driver = new FirefoxDriver();
+		driver.manage().window().maximize();
+
+		  driver.manage().window().maximize();
+	        
+	        //Navigate to XML SiteMap
+	        driver.get("https://www.getcalley.com/page-sitemap.xml");
+	        //adding implict wait
+	        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+	        
+	        //Locating and clicking 1st link
+	        driver.findElement(By.xpath("/html/body/div[2]/table/tbody/tr[1]/td[1]/a")).click();
+	        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+	        
+	        // List of resolutions
+	        String[] desktopResolutions = {"1920x1080", "1366x768", "1536x864"};
+	        String[] mobileResolutions = {"360x640", "414x896", "375x667"};
+
+	        // Capture screenshots for desktop resolutions
+	        captureScreenshots(driver, "Desktop", desktopResolutions);
+
+	        // Capture screenshots for mobile resolutions
+	        captureScreenshots(driver, "Mobile", mobileResolutions);
+
+	}
+
+}
